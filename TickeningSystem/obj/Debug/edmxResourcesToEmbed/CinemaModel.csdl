@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TicketDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Genre">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Movie" Relationship="Self.FK__Movie__GenreId__36B12243" FromRole="Genre" ToRole="Movie" />
+  </EntityType>
+  <EntityType Name="Movie">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Producer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Duration" Type="Int32" Nullable="false" />
+    <Property Name="GenreId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Genre" Relationship="Self.FK__Movie__GenreId__36B12243" FromRole="Movie" ToRole="Genre" />
+    <NavigationProperty Name="Screening" Relationship="Self.FK__Screening__Movie__2A4B4B5E" FromRole="Movie" ToRole="Screening" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SeatsCount" Type="Int32" Nullable="false" />
+    <Property Name="RoomId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="RoomType" Relationship="Self.FK__Room__RoomId__5CD6CB2B" FromRole="Room" ToRole="RoomType" />
+    <NavigationProperty Name="Screening" Relationship="Self.FK__Screening__RoomI__29572725" FromRole="Room" ToRole="Screening" />
+    <NavigationProperty Name="Seat" Relationship="Self.FK__Seat__RoomId__2D27B809" FromRole="Room" ToRole="Seat" />
+  </EntityType>
+  <EntityType Name="RoomType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Room" Relationship="Self.FK__Room__RoomId__5CD6CB2B" FromRole="RoomType" ToRole="Room" />
+  </EntityType>
+  <EntityType Name="Screening">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoomId" Type="Int32" Nullable="false" />
+    <Property Name="MovieId" Type="Int32" Nullable="false" />
+    <Property Name="ScreeningStart" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="StatusId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Movie" Relationship="Self.FK__Screening__Movie__2A4B4B5E" FromRole="Screening" ToRole="Movie" />
+    <NavigationProperty Name="Room" Relationship="Self.FK__Screening__RoomI__29572725" FromRole="Screening" ToRole="Room" />
+    <NavigationProperty Name="ScreeningStatus" Relationship="Self.FK__Screening__Statu__6FE99F9F" FromRole="Screening" ToRole="ScreeningStatus" />
+    <NavigationProperty Name="SeatStatus" Relationship="Self.FK__SeatStatu__Scree__49C3F6B7" FromRole="Screening" ToRole="SeatStatus" />
+  </EntityType>
+  <EntityType Name="ScreeningStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Screening" Relationship="Self.FK__Screening__Statu__6FE99F9F" FromRole="ScreeningStatus" ToRole="Screening" />
+  </EntityType>
+  <EntityType Name="Seat">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Row" Type="Int32" Nullable="false" />
+    <Property Name="Column" Type="Int32" Nullable="false" />
+    <Property Name="RoomId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Room" Relationship="Self.FK__Seat__RoomId__2D27B809" FromRole="Seat" ToRole="Room" />
+    <NavigationProperty Name="SeatStatus" Relationship="Self.FK__SeatStatu__SeatI__48CFD27E" FromRole="Seat" ToRole="SeatStatus" />
+  </EntityType>
+  <EntityType Name="SeatStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StatusId" Type="Int32" Nullable="false" />
+    <Property Name="SeatId" Type="Int32" Nullable="false" />
+    <Property Name="ScreeningId" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="phoneNumber" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Screening" Relationship="Self.FK__SeatStatu__Scree__49C3F6B7" FromRole="SeatStatus" ToRole="Screening" />
+    <NavigationProperty Name="Seat" Relationship="Self.FK__SeatStatu__SeatI__48CFD27E" FromRole="SeatStatus" ToRole="Seat" />
+    <NavigationProperty Name="Status" Relationship="Self.FK__SeatStatu__Statu__47DBAE45" FromRole="SeatStatus" ToRole="Status" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SeatStatus" Relationship="Self.FK__SeatStatu__Statu__47DBAE45" FromRole="Status" ToRole="SeatStatus" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Role" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Movie__GenreId__36B12243">
+    <End Role="Genre" Type="Self.Genre" Multiplicity="1" />
+    <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movie">
+        <PropertyRef Name="GenreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Screening__Movie__2A4B4B5E">
+    <End Role="Movie" Type="Self.Movie" Multiplicity="1" />
+    <End Role="Screening" Type="Self.Screening" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Movie">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Screening">
+        <PropertyRef Name="MovieId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Room__RoomId__5CD6CB2B">
+    <End Role="RoomType" Type="Self.RoomType" Multiplicity="1" />
+    <End Role="Room" Type="Self.Room" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RoomType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Room">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Screening__RoomI__29572725">
+    <End Role="Room" Type="Self.Room" Multiplicity="1" />
+    <End Role="Screening" Type="Self.Screening" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Screening">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Seat__RoomId__2D27B809">
+    <End Role="Room" Type="Self.Room" Multiplicity="1" />
+    <End Role="Seat" Type="Self.Seat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Seat">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Screening__Statu__6FE99F9F">
+    <End Role="ScreeningStatus" Type="Self.ScreeningStatus" Multiplicity="1" />
+    <End Role="Screening" Type="Self.Screening" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ScreeningStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Screening">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SeatStatu__Scree__49C3F6B7">
+    <End Role="Screening" Type="Self.Screening" Multiplicity="1" />
+    <End Role="SeatStatus" Type="Self.SeatStatus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Screening">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SeatStatus">
+        <PropertyRef Name="ScreeningId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SeatStatu__SeatI__48CFD27E">
+    <End Role="Seat" Type="Self.Seat" Multiplicity="1" />
+    <End Role="SeatStatus" Type="Self.SeatStatus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Seat">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SeatStatus">
+        <PropertyRef Name="SeatId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SeatStatu__Statu__47DBAE45">
+    <End Role="Status" Type="Self.Status" Multiplicity="1" />
+    <End Role="SeatStatus" Type="Self.SeatStatus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SeatStatus">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Cinema" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Genre" EntityType="Self.Genre" />
+    <EntitySet Name="Movie" EntityType="Self.Movie" />
+    <EntitySet Name="Room" EntityType="Self.Room" />
+    <EntitySet Name="RoomType" EntityType="Self.RoomType" />
+    <EntitySet Name="Screening" EntityType="Self.Screening" />
+    <EntitySet Name="ScreeningStatus" EntityType="Self.ScreeningStatus" />
+    <EntitySet Name="Seat" EntityType="Self.Seat" />
+    <EntitySet Name="SeatStatus" EntityType="Self.SeatStatus" />
+    <EntitySet Name="Status" EntityType="Self.Status" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK__Movie__GenreId__36B12243" Association="Self.FK__Movie__GenreId__36B12243">
+      <End Role="Genre" EntitySet="Genre" />
+      <End Role="Movie" EntitySet="Movie" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Screening__Movie__2A4B4B5E" Association="Self.FK__Screening__Movie__2A4B4B5E">
+      <End Role="Movie" EntitySet="Movie" />
+      <End Role="Screening" EntitySet="Screening" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Room__RoomId__5CD6CB2B" Association="Self.FK__Room__RoomId__5CD6CB2B">
+      <End Role="RoomType" EntitySet="RoomType" />
+      <End Role="Room" EntitySet="Room" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Screening__RoomI__29572725" Association="Self.FK__Screening__RoomI__29572725">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Screening" EntitySet="Screening" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Seat__RoomId__2D27B809" Association="Self.FK__Seat__RoomId__2D27B809">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Seat" EntitySet="Seat" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Screening__Statu__6FE99F9F" Association="Self.FK__Screening__Statu__6FE99F9F">
+      <End Role="ScreeningStatus" EntitySet="ScreeningStatus" />
+      <End Role="Screening" EntitySet="Screening" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SeatStatu__Scree__49C3F6B7" Association="Self.FK__SeatStatu__Scree__49C3F6B7">
+      <End Role="Screening" EntitySet="Screening" />
+      <End Role="SeatStatus" EntitySet="SeatStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SeatStatu__SeatI__48CFD27E" Association="Self.FK__SeatStatu__SeatI__48CFD27E">
+      <End Role="Seat" EntitySet="Seat" />
+      <End Role="SeatStatus" EntitySet="SeatStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SeatStatu__Statu__47DBAE45" Association="Self.FK__SeatStatu__Statu__47DBAE45">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="SeatStatus" EntitySet="SeatStatus" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
